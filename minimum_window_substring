@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    string s;
+    string p;
+    
+    cin>> s;
+    cin >> p;
+    
+    
+
+    int fs[256]={0};
+    int fp[256]={0};
+
+    int i=0,start=0,count=0;
+    int min_window = INT_MAX, start_index = -1;
+    for(int j=0;j<p.length();j++){
+        fp[p[j]]++;
+    }
+    for(int i=0;i<s.length();i++){
+        char ch = s[i];
+
+        fs[ch]++;
+
+        if(fp[ch]!=0&&fs[ch]<=fp[ch]){
+            count++;
+        }
+
+        if(count==p.length()){
+            //start contracting
+
+            while(fp[s[start]]==0||fs[s[start]]>fp[s[start]]){
+                fs[s[start]]--;
+                start++;
+            }
+
+            int window = i-start+1;
+
+            if(window<min_window){
+                min_window = window;
+                start_index = start;
+            }
+        }
+    }
+
+     if(start_index ==-1){
+          cout<<"Not Found";
+      }
+      else 
+        cout<< s.substr(start_index,min_window);
+}
